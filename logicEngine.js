@@ -1,5 +1,5 @@
 const note = [];
-const id = 1;
+let id = 1;
 
 function createNote(item,category){
     const validCategory = ["Work", "personal", "Study"];
@@ -14,6 +14,7 @@ function createNote(item,category){
     };
 
     note.push(noteObject);
+    return noteObject;
 };
 
-module.exports = {createNote}
+module.exports = {createNote, note}
