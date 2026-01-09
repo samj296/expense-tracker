@@ -1,20 +1,30 @@
-const note = [];
+let expenseAmount = 0;
+const expenseDetail = [];
+const validCategory = ["Food", "Transportation", "Housing", "Bills", "Entertainment", "Shopping", "Miscellaneous"];
 let id = 1;
 
-function createNote(item,category){
-    const validCategory = ["Work", "personal", "Study"];
-    if(!validCategory.includes(category)){
-        throw new Error(`Only ${validCategory.join(", ")} categories are allowed`);        
+function addExpense(expense, category){
+    if(typeof expense !== "number" || Number.isNaN(expense) || expense <= 0){
+        throw new Error(`expense should be a positive numbers only`);
+        
     };
-
-    const noteObject ={
+    const normalizedCat = category.trim().toLowerCase();
+    const normalizedValid = validCategory.map(C => C.toLowerCase());
+    if (!normalizedValid.includes(normalizedCat)){
+        throw new Error(`Category should be ${validCategory.join(", ")}`)
+    };
+    const expenseObject ={
         id: id++,
-        note: item,
-        category: category
+        expense: expense,
+        category: category.toUpperCase()
     };
-
-    note.push(noteObject);
-    return noteObject;
+    expenseAmount += expense
+    expenseDetail.push(expenseObject);
+    return expenseObject;
 };
 
-module.exports = {createNote, note}
+function getExpenseAmount(){
+    return expenseAmount
+}
+
+module.exports = {addExpense, getExpenseAmount,expenseDetail}

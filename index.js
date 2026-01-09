@@ -1,25 +1,29 @@
 const express = require("express");
-const {createNote, note} = require("./logicEngine");
+const {addExpense, getExpenseAmount, expenseDetail} = require("./logicEngine");
 
-const noteApp = express();
-noteApp.use(express.json());
+const expenseApp = express();
+expenseApp.use(express.json());
 
 const PORT = 3000;
 
-noteApp.listen(PORT, () =>{
+expenseApp.listen(PORT, () =>{
     console.log(`The server is running on http://Localhost:${PORT}`);
 });
 
-noteApp.get("/note",(req, res) => {
-    res.json(note);
+expenseApp.get("/exp",(req, res) => {
+    res.json(getExpenseAmount());
 });
 
-noteApp.post("/note",(req, res) =>{
-    const {note: item} = req.body;
+expenseApp.get("/exp/detail", (req,res) =>{
+    res.json(expenseDetail);
+});
+
+expenseApp.post("/exp",(req, res) =>{
+    const {expense: expense} = req.body;
     const {category: category} = req.body;
     try{
-        const newNote = createNote(item, category);
-        res.json(newNote);
+        const newExp = addExpense(expense, category);
+        res.json(newExp);
     }catch(err){
         res.status(404).json({error: err.message});
     }
