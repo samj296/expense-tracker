@@ -27,4 +27,16 @@ function getExpenseAmount(){
     return expenseAmount
 }
 
-module.exports = {addExpense, getExpenseAmount,expenseDetail}
+function deleteExp(id){
+    const itemIndex = expenseDetail.findIndex(i => i["id"] === id);
+    // if the id is not found then findIndex will assign -1
+    if(itemIndex === -1){
+        throw new Error(`expense with id ${id} not found`);
+    }
+    
+    removedItem = expenseDetail.splice(itemIndex,1)[0];
+    expenseAmount -= removedItem.expense;
+   return removedItem
+};
+
+module.exports = {addExpense, getExpenseAmount, expenseDetail, deleteExp}

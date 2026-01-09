@@ -1,5 +1,5 @@
 const express = require("express");
-const {addExpense, getExpenseAmount, expenseDetail} = require("./logicEngine");
+const {addExpense, getExpenseAmount, expenseDetail, deleteExp} = require("./logicEngine");
 
 const expenseApp = express();
 expenseApp.use(express.json());
@@ -11,7 +11,7 @@ expenseApp.listen(PORT, () =>{
 });
 
 expenseApp.get("/exp",(req, res) => {
-    res.json(getExpenseAmount());
+    res.json(`Total exp : ${getExpenseAmount()}`);
 });
 
 expenseApp.get("/exp/detail", (req,res) =>{
@@ -28,4 +28,13 @@ expenseApp.post("/exp",(req, res) =>{
         res.status(404).json({error: err.message});
     }
     
+});
+
+expenseApp.delete("/exp/:id",(req,res) =>{
+    try{
+        const id = Number(req.params.id);
+        res.json(deleteExp(id));
+    }catch (err){
+        res.status(404).json({error: err.message});
+    }
 });
